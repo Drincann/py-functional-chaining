@@ -1,8 +1,7 @@
-from typing import overload
+from abc import abstractmethod
 
 
 class BaseType:
-    @overload
-    @classmethod
-    def pack(cls, obj):
-        return NotImplemented
+    @abstractmethod
+    def pack(cls, _):
+        pass
