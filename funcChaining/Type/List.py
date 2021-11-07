@@ -1,6 +1,7 @@
 import functools
 from typing import Callable, Iterable, TypeVar
 from funcChaining.Type.BaseType import BaseType
+from funcChaining.Type.GenericType import GenericType
 
 _T = TypeVar('_T')
 
@@ -80,3 +81,26 @@ class List(BaseType, list):
 
     def count(self, __value: _T) -> int:
         return super().count(__value)
+
+    # 一些魔术方法的重新实现
+    def __add__(self, other: GenericType) -> "List":
+        return List(super().__add__(other))
+
+    def __radd__(self, other: GenericType) -> "List":
+        newList = other.copy()
+        newList.extend(self)
+        return List(newList)
+
+    def __iadd__(self, x) -> "List":
+        super().__iadd__(x)
+        return self
+
+    def __mul__(self, n: int) -> "List":
+        return List(super().__mul__(n))
+
+    def __rmul__(self, n: int) -> "List":
+        return List(super().__rmul__(n))
+
+    def __imul__(self, n: int) -> "List":
+        super().__imul__(n)
+        return self
