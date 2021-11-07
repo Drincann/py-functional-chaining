@@ -68,6 +68,34 @@ class ListTest(unittest.TestCase):
     def test_count(self):
         self.assertEqual(self.lst.count(3), 1)
 
+    def test_ladd_type(self):
+        self.assertIsInstance(self.lst + [5], List)
+
+    def test_ladd(self):
+        self.assertEqual(self.lst + [5], [1, 2, 3, 4, 5])
+
+    def test_radd_type(self):
+        self.assertIsInstance([5] + self.lst, List)
+
+    def test_radd(self):
+        self.assertEqual([5] + self.lst, [5, 1, 2, 3, 4])
+
+    def test_iadd(self):
+        self.lst += [5]
+        self.assertEqual(self.lst, [1, 2, 3, 4, 5])
+
+    def test_multiply_type(self):
+        self.assertIsInstance(self.lst * 2, List)
+
+    def test_lmultiply(self):
+        self.assertEqual(self.lst * 2, [1, 2, 3, 4, 1, 2, 3, 4])
+
+    def test_rmultiply_type(self):
+        self.assertIsInstance(2 * self.lst, List)
+
+    def test_rmultiply(self):
+        self.assertEqual(2 * self.lst, [1, 2, 3, 4, 1, 2, 3, 4])
+
 
 if __name__ == "__main__":
     unittest.main()
