@@ -1,7 +1,6 @@
 import functools
-from typing import Callable, Iterable, SupportsIndex, TypeVar, overload
+from typing import Callable, Iterable, TypeVar
 from funcChaining.Type.BaseType import BaseType
-from .GenericType import GenericType
 
 _T = TypeVar('_T')
 
@@ -30,7 +29,7 @@ class List(BaseType, list):
         return List(zip(self, *iterables))
 
     # 原有方法的包装
-    # 质变方法
+    # 修改器方法
     def clear(self) -> "List":
         super().clear()
         return self
@@ -43,8 +42,11 @@ class List(BaseType, list):
         super().append(__object)
         return self
 
-    def pop(self, __index=...) -> "List":
-        super().pop(__index=__index)
+    def pop(self, __index=None) -> "List":
+        if __index is None:
+            super().pop()
+        else:
+            super().pop(__index)
         return self
 
     def extend(self, __iterable) -> "List":
@@ -59,16 +61,22 @@ class List(BaseType, list):
         super().reverse()
         return self
 
-    def sort(self, *, key: Callable, reverse: bool = ...) -> None:
-        super().sort(self, key=key, reverse=reverse)
+    def sort(self, *, key: Callable, reverse: bool = False) -> None:
+        super().sort(key=key, reverse=reverse)
         return self
 
-    # 非质变方法
+    # 访问器方法
     def copy(self) -> "List":
         return List(super().copy())
 
-    def index(self, __value: _T, __start: SupportsIndex = ..., __stop: SupportsIndex = ...) -> int:
-        return super().index(__value, __start=__start, __stop=__stop)
+    def index(self, __value: _T, __start=None, __stop=None) -> int:
+        if __start is None:
+            return super().index(__value)
+        else:
+            if __stop is None:
+                return super().index(__value, __start)
+            else:
+                return super().index(__value, __start, __stop)
 
     def count(self, __value: _T) -> int:
         return super().count(__value)
